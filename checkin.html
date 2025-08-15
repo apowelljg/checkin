@@ -1,7 +1,28 @@
 <html>
-<body onload="document.getElementById('checkin').submit()">
+<body onload="(function(){
+  // Build Central Time (America/Chicago) date-time string like 08/15/2025 9:32 AM
+  var tz = 'America/Chicago';
+  var nowLocal = new Date();
+  try { 
+    nowLocal = new Date(new Date().toLocaleString('en-US', { timeZone: tz })); 
+  } catch(e){}
+  
+  var pad = n => String(n).padStart(2,'0');
+  var mo = pad(nowLocal.getMonth()+1), 
+      d = pad(nowLocal.getDate()), 
+      y = nowLocal.getFullYear();
+  var h = nowLocal.getHours(), 
+      m = pad(nowLocal.getMinutes());
+  var ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12; if (h === 0) h = 12;
+  var stamp = `${mo}/${d}/${y} ${h}:${m} ${ampm}`;
+
+  document.getElementById('when').value = stamp;
+  document.getElementById('checkin').submit();
+})();">
   <form id="checkin" action="https://submit.jotform.com/submit/252263936597066/" method="post" target="_self">
     <input type="hidden" name="scanConfirmation" value="Scanned">
+    <input type="hidden" id="when" name="checkIn" value="">
   </form>
 </body>
 </html>
