@@ -1,0 +1,45 @@
+<html>
+  <body>
+    <script>
+      // Read ?id= from the URL, e.g., autosubmit.html?id=12345
+      const params = new URLSearchParams(location.search);
+      const id = (params.get('id') || '').trim();
+
+      if (!id) {
+        document.write('<p style="font-family:system-ui">No ID provided. Add ?id=STUDENT_ID to the URL.</p>');
+      } else {
+        // Your Google Form "formResponse" endpoint
+        const action = "https://docs.google.com/forms/d/e/1FAIpQLSdukhR630Jw1VlCajPH0_luYwZkf9alTu1bJiBkympNO0PryA/formResponse";
+
+        // Build a POST form and submit it immediately
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = action;
+        form.target = '_self';
+
+        // Student ID field
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'entry.1532579079';
+        input.value = id;
+        form.appendChild(input);
+
+        // Optional extras (mimic Forms params)
+        const fvv = document.createElement('input');
+        fvv.type = 'hidden';
+        fvv.name = 'fvv';
+        fvv.value = '1';
+        form.appendChild(fvv);
+
+        const fbzx = document.createElement('input');
+        fbzx.type = 'hidden';
+        fbzx.name = 'fbzx';
+        fbzx.value = Date.now().toString();
+        form.appendChild(fbzx);
+
+        document.body.appendChild(form);
+        form.submit();
+      }
+    </script>
+  </body>
+</html>
